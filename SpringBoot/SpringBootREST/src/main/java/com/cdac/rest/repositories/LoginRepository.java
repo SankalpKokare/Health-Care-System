@@ -12,4 +12,10 @@ public interface LoginRepository extends JpaRepository<LoginEntity, Integer> {
 
 		@Query("Select l from LoginEntity l where username=:uid and password = :pwd ")
 		public  Optional<LoginEntity> getLoginDetails(String uid , String pwd);
+		
+//		@Query("select u from User u where uid = :uid")
+//		public  LoginEntity getUser(String uid);
+		
+		@Query("select l from LoginEntity l where username = :uid")
+		public  LoginEntity getUser(String uid);
 }
