@@ -48,7 +48,7 @@ public class AuthController {
 	  @Autowired
 	  JwtUtils jwtUtils;
 
-	  @PostMapping("/verifyLogin")
+	  @PostMapping("/Login")
 	  public ResponseEntity<?> authenticateUser( @RequestBody LoginRequest loginRequest) {
 
 		  System.out.print("In authController");
@@ -64,9 +64,9 @@ public class AuthController {
 	    MyUserDetails userDetails = (MyUserDetails) authentication.getPrincipal();
         System.out.println(userDetails);
 	    
-	    /*String jwtCookie = jwtUtils.generateTokenFromUsername(loginRequest.getUsername());
-	    System.out.println(jwtCookie);*/
-        ResponseCookie res_cookie = jwtUtils.generateJwtCookie(userDetails);
+	    String jwtToken = jwtUtils.generateTokenFromUsername(loginRequest.getUsername());
+	   // System.out.println(jwtCookie);
+     //   ResponseCookie res_cookie = jwtUtils.generateJwtCookie(userDetails);
 	    List<String> roles = userDetails.getAuthorities().stream()
 	        .map(item -> item.getAuthority())
 	        .collect(Collectors.toList());
@@ -75,10 +75,11 @@ public class AuthController {
 	        .body(new UserInfoResponse(userDetails.getId(),
 	                                   userDetails.getUsername(),	                                   
 	                                   roles));*/
-	    return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, res_cookie.toString())
+	    return ResponseEntity.ok()
+	    		//.header(HttpHeaders.SET_COOKIE, res_cookie.toString())
 		        .body(new UserInfoResponse(userDetails.getId(),
 		                                   userDetails.getUsername(),	                                   
-		                                   roles));
+		                                   roles, jwtToken));
 	  }
 //
 //	  @PostMapping("/signup")

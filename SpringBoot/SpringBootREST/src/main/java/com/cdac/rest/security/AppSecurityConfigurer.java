@@ -55,6 +55,10 @@ public class AppSecurityConfigurer {
 			authorize.requestMatchers("/signup").permitAll();			
 			authorize.requestMatchers("/c").hasAuthority("USER");
 			authorize.requestMatchers("/admin").hasAnyAuthority("ADMIN","USER");
+			authorize.requestMatchers("/registerDoctor").permitAll();
+			authorize.requestMatchers("/verifyLogin").permitAll();
+			authorize.requestMatchers("/Login").permitAll();
+
 		})
 		.addFilterBefore(authTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 		

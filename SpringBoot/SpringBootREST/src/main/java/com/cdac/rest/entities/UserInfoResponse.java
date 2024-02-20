@@ -7,15 +7,17 @@ public class UserInfoResponse {
 	int id;
 	String username;
 	List<String> roles;
+	String accessToken;
 	public UserInfoResponse() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public UserInfoResponse(int id, String username, List<String> roles) {
+	public UserInfoResponse(int id, String username, List<String> roles, String accessToken) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.roles = roles;
+		this.accessToken = accessToken;
 	}
 	public int getId() {
 		return id;
@@ -34,6 +36,12 @@ public class UserInfoResponse {
 	}
 	public void setRoles(List<String> roles) {
 		this.roles = roles;
+	}
+	public String getAccessToken() {
+		return accessToken;
+	}
+	public void setAccessToken(String accessToken) {
+		this.accessToken = accessToken;
 	}
 	
 	

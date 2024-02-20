@@ -40,13 +40,14 @@ public class MyUserDetails implements UserDetails {
 	  
 	  public static MyUserDetails build(LoginEntity user) {
 		  RoleEntity re = user.getRole_id();
-		  	String s = re.getRolename();
-			String [] roles = s.split(",");
-			List<SimpleGrantedAuthority> authority = new ArrayList<>(); 
-			for(String role : roles)
-			{
-				authority.add(new SimpleGrantedAuthority(role));
-			}
+//		  	String s = re.getRolename();
+//			String [] roles = s.split(",");
+	List<SimpleGrantedAuthority> authority = new ArrayList<>(); 
+//			for(String role : roles)
+//			{
+//				authority.add(new SimpleGrantedAuthority(role));
+//			}
+		  authority.add(new SimpleGrantedAuthority(re.getRolename()));
 			
 			
 			System.out.println(authority);
@@ -95,7 +96,7 @@ public class MyUserDetails implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
-		return null;
+		return authorities;
 	}
 
 	@Override
