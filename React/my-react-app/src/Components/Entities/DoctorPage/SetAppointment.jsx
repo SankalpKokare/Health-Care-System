@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./SetAppointment.css";
 
 function SetAppointment() {
   const [startTime, setStartTime] = useState("");
@@ -59,14 +60,14 @@ function SetAppointment() {
     event.preventDefault();
     const loginId = localStorage.getItem("loginId");
     console.log(
-      JSON.stringify({ selectedSlots, sessionDuration, loginId, date })
+      JSON.stringify({ selectedSlots,  loginId, date })
     );
     fetch("http://localhost:8080/verifyLogin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ selectedSlots, sessionDuration, loginId, date }),
+      body: JSON.stringify({ selectedSlots, loginId, date }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -79,70 +80,79 @@ function SetAppointment() {
 
   return (
     <>
-      <legend>SetAppointment</legend>
+      <legend>Set Appointment for {localStorage.getItem("username")}</legend>
 
       <form onSubmit={handleSubmit}>
-        <label>
-          Date:
-          <input
-            type="date"
-            value={date}
-            onChange={handleDateChange}
-            required
-          />
-        </label>
-        <label>
-          Starting Time:
-          <input
-            type="time"
-            value={startTime}
-            onChange={handleStartTimeChange}
-            required
-          />
-        </label>
-        <label>
-          End Time:
-          <input
-            type="time"
-            value={endTime}
-            onChange={handleEndTimeChange}
-            required
-          />
-        </label>
-        <label>
-          Session Duration:
-          <select
-            value={sessionDuration}
-            onChange={handleSessionDurationChange}
-          >
-            <option value={15}>15 mins</option>
-            <option value={30}>30 mins</option>
-            <option value={60}>60 mins</option>
-            <option value={90}>90 mins</option>
-          </select>
-        </label>
-        <button onClick={calculateSlots}>Get Slots</button>
+        <div className="timeContainer">
+          <div className="items">
+            <label>
+              Date
+              <br />
+              <input
+                type="date"
+                value={date}
+                onChange={handleDateChange}
+                required
+              />
+            </label>
+            <label>
+              Starting Time
+              <input
+                type="time"
+                value={startTime}
+                onChange={handleStartTimeChange}
+                required
+              />
+            </label>
+            <label>
+              End Time
+              <input
+                type="time"
+                value={endTime}
+                onChange={handleEndTimeChange}
+                required
+              />
+            </label>
+          </div>
+          <label>
+            Session Duration
+            <select
+              value={sessionDuration}
+              onChange={handleSessionDurationChange}
+              class="form-select"
+            >
+              <option value={15}>15 mins</option>
+              <option value={30}>30 mins</option>
+              <option value={60}>60 mins</option>
+              <option value={90}>90 mins</option>
+            </select>
+          </label>
+          <button class="btn btn-outline-primary" onClick={calculateSlots}>
+            Get Slots
+          </button>
+        </div>
         <div>
-          <h3>Select Slots:</h3>
-          <div className="slots-container">
-            <table>
+          <legend>Select Slots</legend>
+          <div className="container">
+            <div className="row">
               {slots.map((value, index) => (
-                <tr key={index}>
-                  <td>{value}</td>
-                  <td>
-                    <input
-                      type="checkbox"
-                      value={value}
-                      checked={selectedSlots.includes(value)}
-                      onChange={handleSlotCheckboxChange}
-                    />
-                  </td>
-                </tr>
+                <div key={index} className="col-sm-3 ">
+                  <span>{value}</span>
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    value={value}
+                    checked={selectedSlots.includes(value)}
+                    onChange={handleSlotCheckboxChange}
+                  />
+                </div>
               ))}
-            </table>
+            </div>
           </div>
         </div>
-        <button type="submit">Submit</button>
+        <button class="btn btn-primary" type="submit">
+          Submit
+        </button>
       </form>
     </>
   );
