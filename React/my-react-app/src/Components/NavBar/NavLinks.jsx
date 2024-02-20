@@ -52,9 +52,12 @@ function NavLinks() {
           )}
           {location.pathname === "/docHome" && (
             <>
-              <a href="/docProfile" className="navbar-text">
+              <Link className="navbar-text" to="/docProfile">
                 Profile
-              </a>
+              </Link>
+              <Link className="navbar-text" to="/setAppointment">
+                Set Appointment
+              </Link>
             </>
           )}
           {location.pathname === "/docProfile" && (
@@ -89,6 +92,16 @@ function NavLinks() {
             <>
               <Link className="navbar-text" to="/adminDoctor">
                 All Doctors
+              </Link>
+              <button className="btn btn-danger" onClick={handleLogout}>
+                Logout
+              </button>
+            </>
+          )}
+          {location.pathname === "/setAppointment" && (
+            <>
+              <Link className="navbar-text" to="/docHome">
+                Home
               </Link>
               <button className="btn btn-danger" onClick={handleLogout}>
                 Logout
