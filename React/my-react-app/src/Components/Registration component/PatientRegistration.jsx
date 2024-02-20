@@ -1,25 +1,22 @@
 import React, { useReducer } from "react";
-import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function PatientRegistration() {
-  const location = useLocation();
-  console.log(location);
   const init = {
-    username: { value: "", valid: false, touched: false, error: "" },
+    userName: { value: "", valid: false, touched: false, error: "" },
     password: { value: "", valid: false, touched: false, error: "" },
     firstName: { value: "", valid: false, touched: false, error: "" },
     lastName: { value: "", valid: false, touched: false, error: "" },
     address: { value: "", valid: false, touched: false, error: "" },
+    city: { value: "", valid: false, touched: false, error: "" },
+    state: { value: "", valid: false, touched: false, error: "" },
     pincode: { value: "", valid: false, touched: false, error: "" },
     contactNo: { value: "", valid: false, touched: false, error: "" },
     email: { value: "", valid: false, touched: false, error: "" },
-    gender: {
-      value: "",
-      valid: false,
-      touched: false,
-      error: "Please Select a Gender",
-    },
+    gender: { value: "", valid: false, touched: false, error: "" },
+    formValid: false,
   };
+
   const reducer = (state, action) => {
     switch (action.type) {
       case "update":
@@ -31,14 +28,51 @@ function PatientRegistration() {
     }
   };
   const [user, dispatch] = useReducer(reducer, init);
+  const navigate = useNavigate();
+
+  const sendData = (e) => {
+    e.preventDefault();
+    const reqOptions = {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        username: user.userName.value,
+        password: user.password.value,
+        first_name: user.firstName.value,
+        last_name: user.lastName.value,
+        address: user.address.value,
+        phone_number: user.contactNo.value,
+        email_id: user.email.value,
+        gender: user.gender.value,
+        city: user.city.value,
+        pincode: user.pincode.value,
+        state: user.state.value,
+      }),
+    };
+    fetch("http://localhost:8080/registerpatient", reqOptions)
+      .then((resp) => {
+        if (resp.ok) {
+          return resp.json(); 
+        } else {
+          throw new Error("Cannot Register");
+        }
+      })
+      .then((obj) => {
+        console.log(obj);
+        alert("Successfully Registered");
+        navigate("/");
+      })
+      .catch((error) => alert("Server Error: Cannot Register"));
+  };
 
   const validateData = (key, val) => {
     let valid = true;
     let error = "";
+
     switch (key) {
-      case "username":
-        let patternusername = /^[a-zA-Z0-9]+$/;
-        if (!patternusername.test(val)) {
+      case "userName":
+        let patteruserName = /^[a-zA-Z0-9]+$/;
+        if (!patteruserName.test(val)) {
           valid = false;
           error = "Enter Valid User Name";
         }
@@ -55,31 +89,24 @@ function PatientRegistration() {
         let patterfirstName = /^[A-Z]{1}[a-z]{1,}$/;
         if (!patterfirstName.test(val)) {
           valid = false;
-          error = "Must start with an uppercase letter";
+          error = "Enter Valid Name - First Letter Capital";
         }
         break;
       case "lastName":
         let patternlastName = /^[A-Z]{1}[a-z]{1,}$/;
         if (!patternlastName.test(val)) {
           valid = false;
-          error = "Must start with an uppercase letter";
-        }
-        break;
-      case "email":
-        let patternEmail = /^[a-zA-Z0-9.]+@[a-zA-Z]+\.[a-zA-Z]{2,3}$/;
-        if (!patternEmail.test(val)) {
-          valid = false;
-          error = "Please enter a valid email address";
+          error = "Enter Valid Name - First Letter Capital";
         }
         break;
       case "address":
-        let patternAddress = /^[A-Z]{1}[a-z]{1,}$/;
-        if (!patternAddress.test(val)) {
+        let patternaddress = /^[#.0-9a-zA-Z\s,-]+$/;
+        if (!patternaddress.test(val)) {
           valid = false;
           error = "Please Enter Valid Address";
         }
         break;
-        case "pincode":
+      case "pincode":
         let patternpincode = /^[0-9]{1,6}$/;
         if (!patternpincode.test(val)) {
           valid = false;
@@ -87,16 +114,28 @@ function PatientRegistration() {
         }
         break;
       case "contactNo":
-        let patterContact = /^\d{10}$/;
-        if (!patterContact.test(val)) {
+        let patterncontactno = /^\d{10}$/;
+        if (!patterncontactno.test(val)) {
           valid = false;
           error = "Please Enter Valid Contact Number";
         }
+        break;
+      case "email":
+        let patternemail = /^[\w._#-]{4,20}@[\w-]{5,15}\.[a-z]{2,3}$/;
+        if (!patternemail.test(val)) {
+          valid = false;
+          error = "Invalid Email ID";
+        }
+        break;
+      case "gender":
+        valid = val !== "";
+        error = valid ? "" : "Please select a gender";
         break;
       default:
     }
     return { valid: valid, error: error };
   };
+
   const handleChange = (key, value) => {
     const { valid, error } = validateData(key, value);
     let formValid = true;
@@ -113,9 +152,11 @@ function PatientRegistration() {
       data: { key, value, touched: true, valid, error, formValid },
     });
   };
+
   return (
     <>
       <legend>Patient Registration</legend>
+      <p>{JSON.stringify(user)}</p>
       <div className="registration-container">
         <form
           className="form-horizontal needs-validation"
@@ -124,10 +165,9 @@ function PatientRegistration() {
         >
           <table className="table">
             <tbody>
-              <tr></tr>
               <tr>
                 <td>
-                  <label className="control-label" htmlFor="firstName">
+                  <label className="control-label" htmlFor="">
                     User Name
                   </label>
                 </td>
@@ -137,33 +177,32 @@ function PatientRegistration() {
                     className="form-control"
                     id="userName"
                     name="userName"
-                    value={user.username.value}
+                    value={user.userName.value}
                     onChange={(e) => {
-                      handleChange("username", e.target.value);
+                      handleChange("userName", e.target.value);
                     }}
                     onBlur={(e) => {
-                      handleChange("username", e.target.value);
+                      handleChange("userName", e.target.value);
                     }}
-                    placeholder="Raj"
+                    placeholder="rajsharma12"
                     required
                   />
-
                   <div
                     style={{
                       display:
-                        user.username.touched && !user.username.valid
+                        user.userName.touched && !user.userName.valid
                           ? "block"
                           : "none",
                       color: "red",
                     }}
                   >
-                    {user.username.error}
+                    {user.userName.error}
                   </div>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <label className="control-label" htmlFor="firstName">
+                  <label className="control-label" htmlFor="password">
                     Password
                   </label>
                 </td>
@@ -209,7 +248,6 @@ function PatientRegistration() {
                     className="form-control"
                     id="firstName"
                     name="firstName"
-                    // pattern="[A-Z][a-zA-Z]*"
                     value={user.firstName.value}
                     onChange={(e) => {
                       handleChange("firstName", e.target.value);
@@ -220,9 +258,6 @@ function PatientRegistration() {
                     placeholder="Raj"
                     required
                   />
-                  {/* <small className="text-help">
-                    Must start with an uppercase letter
-                  </small> */}
                   <div
                     style={{
                       display:
@@ -248,7 +283,6 @@ function PatientRegistration() {
                     className="form-control"
                     id="lastName"
                     name="lastName"
-                    // pattern="[A-Z][a-zA-Z]*"
                     value={user.lastName.value}
                     onChange={(e) => {
                       handleChange("lastName", e.target.value);
@@ -259,9 +293,6 @@ function PatientRegistration() {
                     placeholder="Patel"
                     required
                   />
-                  {/* <small className="text-help">
-                    Must start with an uppercase letter
-                  </small> */}
                   <div
                     style={{
                       display:
@@ -323,6 +354,10 @@ function PatientRegistration() {
                     id="city"
                     name="city"
                     placeholder="Pune"
+                    value={user.city.value}
+                    onChange={(e) => {
+                      handleChange("city", e.target.value);
+                    }}
                     required
                   />
                   <small className="text-help">Required</small>
@@ -341,6 +376,10 @@ function PatientRegistration() {
                     id="state"
                     name="state"
                     placeholder="Maharashtra"
+                    value={user.state.value}
+                    onChange={(e) => {
+                      handleChange("state", e.target.value);
+                    }}
                     required
                   />
                   <small className="text-help">Required</small>
@@ -354,7 +393,7 @@ function PatientRegistration() {
                 </td>
                 <td>
                   <input
-                    type="number"
+                    type="text"
                     className="form-control"
                     id="pincode"
                     name="pincode"
@@ -394,7 +433,7 @@ function PatientRegistration() {
                     className="form-control"
                     id="contactNo"
                     name="contactNo"
-                    // pattern="[0-9]{10}"
+                    placeholder="9876543210"
                     value={user.contactNo.value}
                     onChange={(e) => {
                       handleChange("contactNo", e.target.value);
@@ -402,12 +441,8 @@ function PatientRegistration() {
                     onBlur={(e) => {
                       handleChange("contactNo", e.target.value);
                     }}
-                    placeholder="9876543210"
                     required
                   />
-                  {/* <small className="text-help">
-                    Please enter a valid 10-digit number
-                  </small> */}
                   <div
                     style={{
                       display:
@@ -433,6 +468,7 @@ function PatientRegistration() {
                     className="form-control"
                     id="email"
                     name="email"
+                    placeholder="RajPatel@gmail.com"
                     value={user.email.value}
                     onChange={(e) => {
                       handleChange("email", e.target.value);
@@ -440,12 +476,8 @@ function PatientRegistration() {
                     onBlur={(e) => {
                       handleChange("email", e.target.value);
                     }}
-                    placeholder="RajPatel@gmail.com"
                     required
                   />
-                  {/* <small className="text-help">
-                    Please enter a valid email address
-                  </small> */}
                   <div
                     style={{
                       display:
@@ -470,6 +502,8 @@ function PatientRegistration() {
                     className="form-control"
                     id="gender"
                     name="gender"
+                    value={user.gender.value}
+                    onChange={(e) => handleChange("gender", e.target.value)}
                     required
                   >
                     <option value="">Select</option>
@@ -478,13 +512,30 @@ function PatientRegistration() {
                   </select>
                   <small className="text-help">Required</small>
                 </td>
+                <div
+                  style={{
+                    display:
+                      user.gender.touched && !user.gender.valid
+                        ? "block"
+                        : "none",
+                    color: "red",
+                  }}
+                >
+                  {user.gender.error}
+                </div>
               </tr>
               <tr>
                 <td colSpan="1" className="button-center">
-                  <button type="submit" className="btn btn-primary">
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    disabled={!user.formValid}
+                    onClick={(e) => sendData(e)}
+                  >
                     Register
                   </button>
                 </td>
+
                 <td colSpan="1" className="button-center">
                   <button
                     type="reset"

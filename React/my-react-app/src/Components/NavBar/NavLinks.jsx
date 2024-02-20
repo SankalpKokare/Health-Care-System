@@ -1,23 +1,32 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./NavLinks.css";
 
 function NavLinks() {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("username");
+    localStorage.removeItem("loginId");
+    // Redirect to the login page after logout
+    navigate("/");
+  };
 
   return (
     <>
-      <nav class="navbar navbar-expand-lg sticky-top  navbar-dark bg-dark">
+      <nav className="navbar navbar-expand-lg sticky-top  navbar-dark bg-dark">
         <div>
           <Link className="navbar-brand" to="/">
-            <i className="bi bi-heart-pulse-fill"></i> HealthCare System
+            <i class="bi bi-heart-pulse"></i>
+            HealthCare System
           </Link>
         </div>
 
         <div>
           {location.pathname === "/" && (
             <>
-              <div class="right-block">
+              <div className="right-block">
                 <Link className="navbar-text" to="/doc-reg">
                   Register Doctor
                 </Link>
@@ -41,11 +50,56 @@ function NavLinks() {
               </Link>
             </>
           )}
-             {location.pathname.endsWith("Home") && (
+          {location.pathname === "/docHome" && (
             <>
-              <Link className="navbar-text" to="/">
-                Logout
+              <a href="/docProfile" className="navbar-text">
+                Profile
+              </a>
+            </>
+          )}
+          {location.pathname === "/docProfile" && (
+            <>
+              <Link className="navbar-text" to="/docHome">
+                Home
               </Link>
+
+              <button className="btn btn-danger" onClick={handleLogout}>
+                Logout
+              </button>
+            </>
+          )}
+          {location.pathname === "/adminHome" && (
+            <>
+              <Link className="navbar-text" to="/adminDoctor">
+                All Doctors
+              </Link>
+            </>
+          )}
+          {location.pathname === "/adminDoctor" && (
+            <>
+              <Link className="navbar-text" to="/adminPatient">
+                All Patients
+              </Link>
+              <button className="btn btn-danger" onClick={handleLogout}>
+                Logout
+              </button>
+            </>
+          )}{" "}
+          {location.pathname === "/adminPatient" && (
+            <>
+              <Link className="navbar-text" to="/adminDoctor">
+                All Doctors
+              </Link>
+              <button className="btn btn-danger" onClick={handleLogout}>
+                Logout
+              </button>
+            </>
+          )}
+          {location.pathname.endsWith("Home") && (
+            <>
+              <button className="btn btn-danger" onClick={handleLogout}>
+                Logout
+              </button>
             </>
           )}
         </div>

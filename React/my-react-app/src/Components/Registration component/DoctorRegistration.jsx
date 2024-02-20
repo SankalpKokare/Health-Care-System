@@ -1,32 +1,26 @@
 // DoctorRegistration.js
 import React, { useReducer } from "react";
 import "./DoctorRegistration.css";
-import { useLocation } from "react-router-dom";
-function DoctorRegistration() {
-  const location = useLocation();
-  console.log(location);
+import { useNavigate } from "react-router-dom";
 
+function DoctorRegistration() {
   const init = {
     userName: { value: "", valid: false, touched: false, error: "" },
     password: { value: "", valid: false, touched: false, error: "" },
     firstName: { value: "", valid: false, touched: false, error: "" },
     lastName: { value: "", valid: false, touched: false, error: "" },
     address: { value: "", valid: false, touched: false, error: "" },
-    // city: { value: "", valid: false, touched: false, error: "" },
-    // state: { value: "", valid: false, touched: false, error: "" },
+    city: { value: "", valid: false, touched: false, error: "" },
+    state: { value: "", valid: false, touched: false, error: "" },
     pincode: { value: "", valid: false, touched: false, error: "" },
     contactNo: { value: "", valid: false, touched: false, error: "" },
     email: { value: "", valid: false, touched: false, error: "" },
-    gender: {
-      value: "",
-      valid: false,
-      touched: false,
-      error: "Please Select a Gender",
-    },
-    // description: { value: "", valid: false, touched: false, error: "" },
-    // Specialization: { value: "", valid: false, touched: false, error: "" },
-    // Education: { value: "", valid: false, touched: false, error: "" },
-    // experience: { value: "", valid: false, touched: false, error: "" },
+    gender: { value: "", valid: false, touched: false, error: "" },
+    description: { value: "", valid: false, touched: false, error: "" },
+    specialization: { value: "", valid: false, touched: false, error: "" },
+    education: { value: "", valid: false, touched: false, error: "" },
+    experience: { value: "", valid: false, touched: false, error: "" },
+    formValid: false,
   };
 
   const reducer = (state, action) => {
@@ -39,8 +33,47 @@ function DoctorRegistration() {
       default:
     }
   };
-
   const [user, dispatch] = useReducer(reducer, init);
+  const navigate = useNavigate();
+
+  const sendData = (e) => {
+    e.preventDefault();
+    const reqOptions = {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        username: user.userName.value,
+        password: user.password.value,
+        first_name: user.firstName.value,
+        last_name: user.lastName.value,
+        address: user.address.value,
+        phonenumber: user.contactNo.value,
+        email: user.email.value,
+        gender: user.gender.value,
+        description: user.description.value,
+        specialization: user.specialization.value,
+        education: user.education.value,
+        city: user.city.value,
+        pincode: user.pincode.value,
+        state: user.state.value,
+        experience: user.experience.value,
+      }),
+    };
+    fetch("http://localhost:8080/registerDoctor", reqOptions)
+      .then((resp) => {
+        if (resp.ok) {
+          return resp.json(); 
+        } else {
+          throw new Error("Cannot Register");
+        }
+      })
+      .then((obj) => {
+        console.log(obj);
+        alert("Successfully Registered");
+        navigate("/");
+      })
+      .catch((error) => alert("Server Error: Cannot Register"));
+  };
 
   const validateData = (key, val) => {
     let valid = true;
@@ -83,7 +116,7 @@ function DoctorRegistration() {
           error = "Please Enter Valid Address";
         }
         break;
-        case "pincode":
+      case "pincode":
         let patternpincode = /^[0-9]{1,6}$/;
         if (!patternpincode.test(val)) {
           valid = false;
@@ -129,9 +162,11 @@ function DoctorRegistration() {
       data: { key, value, touched: true, valid, error, formValid },
     });
   };
+
   return (
     <>
       <legend>Doctor Registration</legend>
+      {/* <p>{JSON.stringify(user)}</p> */}
       <div className="registration-container">
         <form
           className="form-horizontal needs-validation"
@@ -142,7 +177,7 @@ function DoctorRegistration() {
             <tbody>
               <tr>
                 <td>
-                  <label className="control-label" htmlFor="firstName">
+                  <label className="control-label" htmlFor="">
                     User Name
                   </label>
                 </td>
@@ -162,7 +197,6 @@ function DoctorRegistration() {
                     placeholder="rajsharma12"
                     required
                   />
-
                   <div
                     style={{
                       display:
@@ -178,7 +212,7 @@ function DoctorRegistration() {
               </tr>
               <tr>
                 <td>
-                  <label className="control-label" htmlFor="firstName">
+                  <label className="control-label" htmlFor="password">
                     Password
                   </label>
                 </td>
@@ -330,6 +364,10 @@ function DoctorRegistration() {
                     id="city"
                     name="city"
                     placeholder="Pune"
+                    value={user.city.value}
+                    onChange={(e) => {
+                      handleChange("city", e.target.value);
+                    }}
                     required
                   />
                   <small className="text-help">Required</small>
@@ -348,6 +386,10 @@ function DoctorRegistration() {
                     id="state"
                     name="state"
                     placeholder="Maharashtra"
+                    value={user.state.value}
+                    onChange={(e) => {
+                      handleChange("state", e.target.value);
+                    }}
                     required
                   />
                   <small className="text-help">Required</small>
@@ -361,7 +403,7 @@ function DoctorRegistration() {
                 </td>
                 <td>
                   <input
-                    type="number"
+                    type="text"
                     className="form-control"
                     id="pincode"
                     name="pincode"
@@ -470,7 +512,7 @@ function DoctorRegistration() {
                     className="form-control"
                     id="gender"
                     name="gender"
-                    checked={user.gender.value === "f"}
+                    value={user.gender.value}
                     onChange={(e) => handleChange("gender", e.target.value)}
                     required
                   >
@@ -481,16 +523,16 @@ function DoctorRegistration() {
                   <small className="text-help">Required</small>
                 </td>
                 <div
-                    style={{
-                      display:
-                        user.gender.touched && !user.gender.valid
-                          ? "block"
-                          : "none",
-                      color: "red",
-                    }}
-                  >
-                    {user.gender.error}
-                  </div>
+                  style={{
+                    display:
+                      user.gender.touched && !user.gender.valid
+                        ? "block"
+                        : "none",
+                    color: "red",
+                  }}
+                >
+                  {user.gender.error}
+                </div>
               </tr>
               <tr>
                 <td>
@@ -505,6 +547,10 @@ function DoctorRegistration() {
                     id="description"
                     name="description"
                     placeholder="Cardiologist"
+                    value={user.description.value}
+                    onChange={(e) =>
+                      handleChange("description", e.target.value)
+                    }
                     required
                   />
                   <small className="text-help">Required</small>
@@ -512,17 +558,21 @@ function DoctorRegistration() {
               </tr>
               <tr>
                 <td>
-                  <label className="control-label" htmlFor="Specialization">
-                    Specialization
+                  <label className="control-label" htmlFor="specialization">
+                    specialization
                   </label>
                 </td>
                 <td>
                   <input
                     type="text"
                     className="form-control"
-                    id="Specialization"
-                    name="Specialization"
+                    id="specialization"
+                    name="specialization"
                     placeholder="Heart Surgeon"
+                    value={user.specialization.value}
+                    onChange={(e) =>
+                      handleChange("specialization", e.target.value)
+                    }
                     required
                   />
                   <small className="text-help">Required</small>
@@ -530,7 +580,7 @@ function DoctorRegistration() {
               </tr>
               <tr>
                 <td>
-                  <label className="control-label" htmlFor="Specialization">
+                  <label className="control-label" htmlFor="education">
                     Education
                   </label>
                 </td>
@@ -541,6 +591,8 @@ function DoctorRegistration() {
                     id="education"
                     name="education"
                     placeholder="MBBS,MD"
+                    value={user.education.value}
+                    onChange={(e) => handleChange("education", e.target.value)}
                     required
                   />
                   <small className="text-help">Required</small>
@@ -559,6 +611,8 @@ function DoctorRegistration() {
                     id="experience"
                     name="experience"
                     placeholder=""
+                    value={user.experience.value}
+                    onChange={(e) => handleChange("experience", e.target.value)}
                     required
                     max="70"
                   />
@@ -567,7 +621,12 @@ function DoctorRegistration() {
               </tr>
               <tr>
                 <td colSpan="1" className="button-center">
-                  <button type="submit" className="btn btn-primary">
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    disabled={!user.formValid}
+                    onClick={(e) => sendData(e)}
+                  >
                     Register
                   </button>
                 </td>

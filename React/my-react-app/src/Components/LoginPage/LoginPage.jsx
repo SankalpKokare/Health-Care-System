@@ -41,18 +41,20 @@ function LoginPage() {
           throw new Error("Service Error");
         }
       })
-      // .then((resp) => console.log(resp))
+     //  .then((resp) => console.log(resp))
       // .then((resp) => resp.text())
       .then((text) => (text.length ? JSON.parse(text) : {}))
       .then((obj) => {
         if (Object.keys(obj).length === 0) {
           setMsg("Account not found");
         } else {
+          localStorage.setItem('loginId', obj.login_id); 
+          localStorage.setItem('username', obj.username);
           if (obj.id_approved === false) {
            setMsg("Request not approved");
           } else {
             if (obj.role_id.roleid === 1) {
-              navigate("/adminHome");
+              navigate("/adminDoctor");
             } else if (obj.role_id.roleid === 2) {
               navigate("/docHome");
             } else if (obj.role_id.roleid === 3) {
@@ -78,7 +80,7 @@ function LoginPage() {
             <input
               type="text"
               name="username"
-              id=""
+              id="username"
               className="form-control"
               value={info.username}
               onChange={(e) => {
@@ -96,7 +98,7 @@ function LoginPage() {
             <input
               type="password"
               name="password"
-              id=""
+              id="password"
               className="form-control"
               value={info.password}
               onChange={(e) => {
