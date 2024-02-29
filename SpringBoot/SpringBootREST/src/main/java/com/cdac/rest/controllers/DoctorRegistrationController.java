@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,6 +36,9 @@ public class DoctorRegistrationController {
 	@Autowired
 	RoleService roleService;
 
+	@Autowired
+	PasswordEncoder pe;
+	
 	// http://localhost:8080/getAllDoctor
 	@GetMapping("/getAllDoctor")
 	public List<DoctorRegistrationEntity> getAllDoctor() {
