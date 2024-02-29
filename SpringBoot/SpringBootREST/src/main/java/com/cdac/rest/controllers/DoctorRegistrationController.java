@@ -55,7 +55,7 @@ public class DoctorRegistrationController {
 	@PostMapping("/registerDoctor")
 	public DoctorRegistrationEntity regsiterDoctor(@RequestBody DummyDoctorRegistrationEntity ddr) {
 		RoleEntity r = roleService.getRole(2);
-		LoginEntity le = new LoginEntity(ddr.getUsername(), pe.encode(ddr.getPassword()), r, true);
+		LoginEntity le = new LoginEntity(ddr.getUsername(), ddr.getPassword(), r, false);
 		loginService.save(le);
 		DoctorRegistrationEntity d = new DoctorRegistrationEntity(ddr.getFirst_name(), ddr.getLast_name(),
 				ddr.getAddress(), ddr.getCity(), ddr.getState(), ddr.getPincode(), ddr.getPhonenumber(), ddr.getEmail(),
@@ -102,4 +102,5 @@ public class DoctorRegistrationController {
 //            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to approve doctor.");
 //        }
 //    }
+	
 }

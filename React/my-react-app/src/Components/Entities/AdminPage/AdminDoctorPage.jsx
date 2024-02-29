@@ -1,7 +1,7 @@
 import {React, useEffect , useState} from "react";
 import AdminDoctorEntity from "./AdminDoctorEntity";
 import "./AdminDoctorPage.css";
-import getAllDoctor from "./getAllDoctor";
+//import getAllDoctor from "./getAllDoctor";
 
 function AdminDoctorPage() {
 

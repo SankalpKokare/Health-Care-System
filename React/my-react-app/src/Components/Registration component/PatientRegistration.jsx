@@ -49,7 +49,7 @@ function PatientRegistration() {
         state: user.state.value,
       }),
     };
-    fetch("http://localhost:8080/registerpatient", reqOptions)
+    fetch("http://localhost:8080/registerPatient", reqOptions)
       .then((resp) => {
         if (resp.ok) {
           return resp.json(); 
@@ -156,7 +156,7 @@ function PatientRegistration() {
   return (
     <>
       <legend>Patient Registration</legend>
-      <p>{JSON.stringify(user)}</p>
+      {/* <p>{JSON.stringify(user)}</p> */}
       <div className="registration-container">
         <form
           className="form-horizontal needs-validation"

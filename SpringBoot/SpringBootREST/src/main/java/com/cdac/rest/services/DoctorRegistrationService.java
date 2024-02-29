@@ -26,9 +26,16 @@ public class DoctorRegistrationService {
 		return doctorRepo.save(dre);
 	}
 
+	//login id 
 	public DoctorRegistrationEntity findDoctorById(int doctorLoginId) {
 		return doctorRepo.findDoctorById(doctorLoginId);
 	}
+	
+	//primary key 
+	 public DoctorRegistrationEntity getDoctorById(int doctorId) {
+	        return doctorRepo.findById(doctorId).orElse(null);
+	    }
+	  
 
 //	public int registerDoctor( String firstname, String lastname,
 //			 String paddress,  long pphoneno,

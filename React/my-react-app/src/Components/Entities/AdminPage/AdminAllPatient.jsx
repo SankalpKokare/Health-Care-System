@@ -7,7 +7,7 @@ function AdminAllPatient() {
   const [doctors, setDoctors] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8080/getpatient")
+    fetch("http://localhost:8080/getAllPatient")
       .then(resp => {
         if (resp.ok) {
             return resp.json();

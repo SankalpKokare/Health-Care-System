@@ -52,9 +52,25 @@ function NavLinks() {
           )}
           {location.pathname === "/docHome" && (
             <>
-              <a href="/docProfile" className="navbar-text">
-                Profile
-              </a>
+              <Link className="navbar-text" to="/setAppointment">
+                Set Appointment
+              </Link>
+              <Link className="navbar-text" to="/viewAllDocAppointment">
+                View All Appointments
+              </Link>
+            </>
+          )}
+          {location.pathname === "/viewAllDocAppointment" && (
+            <>
+              <Link className="navbar-text" to="/setAppointment">
+                Set Appointment
+              </Link>
+              <Link className="navbar-text" to="/docHome">
+                Home
+              </Link>
+              <button className="btn btn-danger" onClick={handleLogout}>
+                Logout
+              </button>
             </>
           )}
           {location.pathname === "/docProfile" && (
@@ -68,10 +84,31 @@ function NavLinks() {
               </button>
             </>
           )}
+          {location.pathname === "/viewAllPatAppointment" && (
+            <>
+              <Link className="navbar-text" to="/patientHome">
+                Home
+              </Link>
+
+              <button className="btn btn-danger" onClick={handleLogout}>
+                Logout
+              </button>
+            </>
+          )}
+          {location.pathname === "/patientHome" && (
+            <>
+              <Link className="navbar-text" to="/viewAllPatAppointment">
+                View Appointments
+              </Link>
+            </>
+          )}
           {location.pathname === "/adminHome" && (
             <>
               <Link className="navbar-text" to="/adminDoctor">
                 All Doctors
+              </Link>
+              <Link className="navbar-text" to="/AdminViewAllAppointments">
+                View All Appointments
               </Link>
             </>
           )}
@@ -80,16 +117,59 @@ function NavLinks() {
               <Link className="navbar-text" to="/adminPatient">
                 All Patients
               </Link>
+              <Link className="navbar-text" to="/AdminViewAllAppointments">
+                View All Appointments
+              </Link>
               <button className="btn btn-danger" onClick={handleLogout}>
                 Logout
               </button>
             </>
-          )}{" "}
+          )}
           {location.pathname === "/adminPatient" && (
             <>
+              <Link className="navbar-text" to="/AdminViewAllAppointments">
+                View All Appointments
+              </Link>
               <Link className="navbar-text" to="/adminDoctor">
                 All Doctors
               </Link>
+              <button className="btn btn-danger" onClick={handleLogout}>
+                Logout
+              </button>
+            </>
+          )}
+            {location.pathname === "/AdminViewAllAppointments" && (
+            <>
+               <Link className="navbar-text" to="/adminPatient">
+                All Patients
+              </Link>
+              <Link className="navbar-text" to="/adminDoctor">
+                All Doctors
+              </Link>
+              <button className="btn btn-danger" onClick={handleLogout}>
+                Logout
+              </button>
+            </>
+          )}
+          {location.pathname === "/setAppointment" && (
+            <>
+              <Link className="navbar-text" to="/viewAllDocAppointment">
+                View All Appointments
+              </Link>
+              <Link className="navbar-text" to="/docHome">
+                Home
+              </Link>
+              <button className="btn btn-danger" onClick={handleLogout}>
+                Logout
+              </button>
+            </>
+          )}
+          {location.pathname === "/getAppointment" && (
+            <>
+              <Link className="navbar-text" to="/patientHome">
+                Home
+              </Link>
+
               <button className="btn btn-danger" onClick={handleLogout}>
                 Logout
               </button>

@@ -1,0 +1,62 @@
+.set-appointment-container {
+  .timeContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  label {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    margin: 10px;
+  }
+
+  .btn {
+    margin: 10px;
+  }
+
+  input {
+    padding: 3px;
+    margin: 5px;
+  }
+
+  .items {
+    display: flex;
+  }
+
+  .container {
+    justify-content: center;
+    max-width: 60vw;
+    align-items: center;
+  }
+
+  .col-sm-3 {
+    text-align: center;
+    padding: 10px;
+    background-color: lightgreen;
+    border: white 2px solid;
+    border-radius: 4px;
+  }
+
+  span {
+    margin: 5px;
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+  }
+
+  input{
+    max-width: 125px;
+  }
+
+  .form-check-input {
+    width: 18px;
+    height: 18px;
+  }
+
+ 
+}

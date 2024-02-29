@@ -31,7 +31,8 @@ function AdminPatientEntity(prop) {
   };
 
   const fetchDelete = () => {
-    fetch(`http://localhost:8080/deleteDoctor/${prop.doctorid}`, {
+    console.log(`http://localhost:8080/deletePatient/${prop.patient_id}`);
+    fetch(`http://localhost:8080/deletePatient/${prop.patient_id}`, {
       method: "DELETE",
       headers: { "content-type": "application/json" },
     }).then((resp) => {
@@ -66,14 +67,7 @@ function AdminPatientEntity(prop) {
               <span>)</span>
             </span>
           </h5>
-          <hr /> <button
-            onClick={handleButtonClick}
-            className={`btn ${
-              prop.patient_login_id.id_approved ? "btn-danger" : "btn-success"
-            }`}
-          >
-            {prop.patient_login_id.id_approved ? "Disable" : "Enable"}
-          </button>
+          <hr />
           <button
             className="btn btn-sm btn-outline-danger"
             onClick={handleDelete}
@@ -88,8 +82,6 @@ function AdminPatientEntity(prop) {
           {prop.phone_number}
           <i className="bi bi-envelope-at-fill"></i>
           {prop.email_id}
-          <i className="bi bi-geo-alt-fill"></i>
-          {prop.city} {prop.pincode}
         </div>
       </div>
     </>

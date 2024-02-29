@@ -118,7 +118,7 @@ function LoginPage() {
               className="btn btn-primary"
               onClick={(e) => sendData(e)}
             >
-              Submit
+              Login
             </button>
           </div>
 
