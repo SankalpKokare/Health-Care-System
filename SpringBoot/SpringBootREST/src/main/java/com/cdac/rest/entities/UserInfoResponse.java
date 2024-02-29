@@ -8,6 +8,7 @@ public class UserInfoResponse {
 	String username;
 	List<String> roles;
 	String accessToken;
+	boolean isapproved;
 	public UserInfoResponse() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -19,6 +20,16 @@ public class UserInfoResponse {
 		this.roles = roles;
 		this.accessToken = accessToken;
 	}
+	
+	public UserInfoResponse(int id, String username, List<String> roles, String accessToken, boolean isapproved) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.roles = roles;
+		this.accessToken = accessToken;
+		this.isapproved = isapproved;
+	}
+	
 	public int getId() {
 		return id;
 	}
@@ -42,6 +53,13 @@ public class UserInfoResponse {
 	}
 	public void setAccessToken(String accessToken) {
 		this.accessToken = accessToken;
+	}
+	
+	public boolean getIsapproved() {
+		return isapproved;
+	}
+	public void setIsapproved(boolean isapproved) {
+		this.isapproved = isapproved;
 	}
 	
 	

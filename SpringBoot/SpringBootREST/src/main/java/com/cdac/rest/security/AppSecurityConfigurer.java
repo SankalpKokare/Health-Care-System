@@ -51,14 +51,17 @@ public class AppSecurityConfigurer {
 		http.csrf(csrf -> csrf.disable())
 		.authorizeHttpRequests(authorize -> {
 			authorize.requestMatchers("/all").permitAll();
-			authorize.requestMatchers("/signin").permitAll();
+			authorize.requestMatchers("/signout").permitAll();
 			authorize.requestMatchers("/signup").permitAll();			
-			authorize.requestMatchers("/c").hasAuthority("USER");
+			authorize.requestMatchers("/getAllDoctor").hasAuthority("Admin");
+			authorize.requestMatchers("/appointments/getall").hasAuthority("Admin");
+			authorize.requestMatchers("/disapprove/**").hasAuthority("Admin");
+			authorize.requestMatchers("/approve/**").hasAuthority("Admin");
+			authorize.requestMatchers("/getAllPatient").hasAuthority("Admin");
 			authorize.requestMatchers("/admin").hasAnyAuthority("ADMIN","USER");
 			authorize.requestMatchers("/registerDoctor").permitAll();
 			authorize.requestMatchers("/verifyLogin").permitAll();
 			authorize.requestMatchers("/Login").permitAll();
-
 		})
 		.addFilterBefore(authTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 		

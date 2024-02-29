@@ -27,6 +27,7 @@ import com.cdac.rest.entities.LoginEntity;
 import com.cdac.rest.entities.UserInfoResponse;
 import com.cdac.rest.security.JwtUtils;
 import com.cdac.rest.security.MyUserDetails;
+import com.cdac.rest.services.LoginService;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -47,6 +48,9 @@ public class AuthController {
 
 	  @Autowired
 	  JwtUtils jwtUtils;
+	  
+	  @Autowired
+	  LoginService lservice;
 
 	  @PostMapping("/Login")
 	  public ResponseEntity<?> authenticateUser( @RequestBody LoginRequest loginRequest) {
@@ -75,11 +79,14 @@ public class AuthController {
 	        .body(new UserInfoResponse(userDetails.getId(),
 	                                   userDetails.getUsername(),	                                   
 	                                   roles));*/
+	    LoginEntity le = lservice.getLoginById(userDetails.getId());
+	    
+	    
 	    return ResponseEntity.ok()
 	    		//.header(HttpHeaders.SET_COOKIE, res_cookie.toString())
 		        .body(new UserInfoResponse(userDetails.getId(),
 		                                   userDetails.getUsername(),	                                   
-		                                   roles, jwtToken));
+		                                   roles, jwtToken , le.isId_approved()));
 	  }
 //
 //	  @PostMapping("/signup")

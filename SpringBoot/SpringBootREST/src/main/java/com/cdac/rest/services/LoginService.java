@@ -31,9 +31,18 @@ public class LoginService {
 		return loginRepo.save(le);
 	}
 	
-	public void getLoginById(int loginID) {
+	public LoginEntity getLoginById(int loginID) {
 		
-		 loginRepo.findById(loginID);
+		// loginRepo.findById(loginID);
+		LoginEntity logobj ;
+		Optional<LoginEntity> le = loginRepo.findById(loginID);
+		try {
+			logobj =le.get();
+		}catch(Exception e) {
+			logobj = null;
+		}
+		
+		return logobj;
 		
 	}
 

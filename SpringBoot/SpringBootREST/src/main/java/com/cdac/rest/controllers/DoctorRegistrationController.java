@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
@@ -55,7 +56,8 @@ public class DoctorRegistrationController {
 	@PostMapping("/registerDoctor")
 	public DoctorRegistrationEntity regsiterDoctor(@RequestBody DummyDoctorRegistrationEntity ddr) {
 		RoleEntity r = roleService.getRole(2);
-		LoginEntity le = new LoginEntity(ddr.getUsername(), ddr.getPassword(), r, false);
+		//LoginEntity le = new LoginEntity(ddr.getUsername(), ddr.getPassword(), r, false);
+		LoginEntity le = new LoginEntity(ddr.getUsername(), pe.encode(ddr.getPassword()), r, true);
 		loginService.save(le);
 		DoctorRegistrationEntity d = new DoctorRegistrationEntity(ddr.getFirst_name(), ddr.getLast_name(),
 				ddr.getAddress(), ddr.getCity(), ddr.getState(), ddr.getPincode(), ddr.getPhonenumber(), ddr.getEmail(),
@@ -82,6 +84,8 @@ public class DoctorRegistrationController {
 			return ResponseEntity.notFound().build();
 		}
 	}
+	
+	
 	
 //	@PutMapping("/doctorUpdate/{DoctorLoginId}")
 //	public int update_Doctor(@RequestParam("firstname") String firstname, @RequestParam("lastname") String lastname,

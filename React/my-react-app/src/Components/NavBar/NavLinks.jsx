@@ -9,6 +9,19 @@ function NavLinks() {
   const handleLogout = () => {
     localStorage.removeItem("username");
     localStorage.removeItem("loginId");
+    sessionStorage.removeItem("jwtToken");
+    fetch(`http://localhost:8080/signout`, {
+      method: "Post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((resp) => {
+      if (resp.ok) {
+        return resp.json();
+      } else {
+        throw new Error("Failed signout");
+      }
+    });
     // Redirect to the login page after logout
     navigate("/");
   };
@@ -138,9 +151,9 @@ function NavLinks() {
               </button>
             </>
           )}
-            {location.pathname === "/AdminViewAllAppointments" && (
+          {location.pathname === "/AdminViewAllAppointments" && (
             <>
-               <Link className="navbar-text" to="/adminPatient">
+              <Link className="navbar-text" to="/adminPatient">
                 All Patients
               </Link>
               <Link className="navbar-text" to="/adminDoctor">

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 function AdminViewAllAppointments() {
   const [data, setData] = useState([]);
   const loginID = localStorage.getItem("loginId");
-
+  const jwtToken = sessionStorage.getItem("jwtToken");
   useEffect(() => {
     fetchData();
   }, []);
@@ -16,6 +16,7 @@ function AdminViewAllAppointments() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${jwtToken}`,
       },
     })
       .then((resp) => {

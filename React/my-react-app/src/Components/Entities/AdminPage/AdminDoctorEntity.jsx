@@ -2,6 +2,7 @@ import React from "react";
 import "./AdminDoctorEntity.css";
 
 export default function AdminDoctoEntity(prop) {
+  const jwtToken = sessionStorage.getItem("jwtToken");
   const handleButtonClick = (e) => {
     e.preventDefault();
     const linkString = prop.doctor_login_id.id_approved
@@ -9,13 +10,16 @@ export default function AdminDoctoEntity(prop) {
       : `http://localhost:8080/approve/`;
     const reqOptions = {
       method: "GET",
-      headers: { "content-type": "application/json" },
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${jwtToken}`,
+      },
     };
     console.log(reqOptions);
-  //  alert(linkString + prop.doctor_login_id.login_id);
+    //  alert(linkString + prop.doctor_login_id.login_id);
     fetch(linkString + prop.doctor_login_id.login_id, reqOptions).then(
       (resp) => {
-        window.location.reload();
+         window.location.reload();
       }
     );
   };

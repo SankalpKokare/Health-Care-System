@@ -33,31 +33,39 @@ function LoginPage() {
       headers: { "content-type": "application/json" },
       body: JSON.stringify(info),
     };
-    fetch("http://localhost:8080/verifyLogin", reqOptions)
-      .then((resp) => {
-        if (resp.ok) {
-          return resp.text();
-        } else {
-          throw new Error("Service Error");
-        }
-      })
-     //  .then((resp) => console.log(resp))
+    fetch("http://localhost:8080/Login", reqOptions)
+      // .then((resp) => {
+      //   if (resp.ok) {
+      //     console.log("resp is ok")
+      //     return resp.text();
+      //   } else {
+      //     throw new Error("Service Error");
+      //   }
+      // })
+      //  .then((resp) => console.log(resp))
       // .then((resp) => resp.text())
+      .then((resp) => {
+        return resp.text();
+      })
       .then((text) => (text.length ? JSON.parse(text) : {}))
       .then((obj) => {
         if (Object.keys(obj).length === 0) {
           setMsg("Account not found");
         } else {
-          localStorage.setItem('loginId', obj.login_id); 
-          localStorage.setItem('username', obj.username);
-          if (obj.id_approved === false) {
-           setMsg("Request not approved");
+          console.log(JSON.stringify(obj));
+          console.log(obj.roles[0] + "Role");
+          localStorage.setItem("loginId", obj.id);
+          localStorage.setItem("username", obj.username);
+          sessionStorage.setItem("jwtToken", obj.accessToken);
+          console.log(sessionStorage.getItem("jwtToken") + " Jwt token")
+          if (obj.isapproved === false) {
+            setMsg("Request not approved");
           } else {
-            if (obj.role_id.roleid === 1) {
+            if (obj.roles[0] === "Admin") {
               navigate("/adminDoctor");
-            } else if (obj.role_id.roleid === 2) {
+            } else if (obj.roles[0] === "Doctor") {
               navigate("/docHome");
-            } else if (obj.role_id.roleid === 3) {
+            } else if (obj.roles[0] === "Patient") {
               navigate("/patientHome");
             }
           }
@@ -110,7 +118,6 @@ function LoginPage() {
               }}
             />
           </div>
-          
 
           <div className="button-container">
             <button
