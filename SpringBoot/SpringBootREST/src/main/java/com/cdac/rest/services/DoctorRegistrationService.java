@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cdac.rest.entities.DoctorRegistrationEntity;
 import com.cdac.rest.entities.LoginEntity;
-import com.cdac.rest.repositories.DoctorRegistrationRepository;
+import com.cdac.rest.repositories.IDoctorRegistrationRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -16,7 +16,7 @@ import jakarta.transaction.Transactional;
 public class DoctorRegistrationService {
 
 	@Autowired
-	DoctorRegistrationRepository doctorRepo;
+	IDoctorRegistrationRepository doctorRepo;
 
 	public List<DoctorRegistrationEntity> getAllDoctor() {
 		return doctorRepo.findAll();

@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cdac.rest.entities.AppointmentTime;
-import com.cdac.rest.repositories.AppointmentTimeRepository;
+import com.cdac.rest.repositories.IAppointmentTimeRepository;
 
 @Service
 public class AppointmentTimeService {
     @Autowired
-    private AppointmentTimeRepository appointmentTimeRepository;
+    private IAppointmentTimeRepository appointmentTimeRepository;
 
     public AppointmentTime saveAppointmentTime(AppointmentTime appointmentTime) {
         return appointmentTimeRepository.save(appointmentTime);

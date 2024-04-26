@@ -12,7 +12,8 @@ function DoctorRegistration() {
   const [specializations, setSpecializations] = useState([]);
 
   const fetchSpecializations = () => {
-    fetch("https://localhost:7235/api/Specializations")
+    //fetch("https://localhost:7235/api/Specializations")
+    fetch("http://localhost:8080/getAllSpecialization")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch specializations");
@@ -604,7 +605,7 @@ function DoctorRegistration() {
               <tr>
                 <td>
                   <label className="control-label" htmlFor="specialization">
-                    specialization
+                    Specialization
                   </label>
                 </td>
                 {/* <td>
@@ -635,8 +636,8 @@ function DoctorRegistration() {
               >
                 <option value="">Select Specialization</option>
                 {specializations.map((spec) => (
-                  <option key={spec.spid} value={spec.specialization1}>
-                    {spec.specialization1}
+                  <option key={spec.spid} value={spec.specialization}>
+                    {spec.specialization}
                   </option>
                 ))}
               </select>

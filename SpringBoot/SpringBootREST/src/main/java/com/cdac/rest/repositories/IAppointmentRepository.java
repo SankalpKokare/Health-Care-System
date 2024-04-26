@@ -10,7 +10,7 @@ import com.cdac.rest.entities.DoctorRegistrationEntity;
 import com.cdac.rest.entities.PatientRegistrationEntity;
 
 @Repository
-public interface AppointmentRepository extends JpaRepository<Appointment,Integer> {
+public interface IAppointmentRepository extends JpaRepository<Appointment,Integer> {
 	
     List<Appointment> findByDoctorIdAndAppointmentDate(DoctorRegistrationEntity doctorId, String appointmentDate);
     

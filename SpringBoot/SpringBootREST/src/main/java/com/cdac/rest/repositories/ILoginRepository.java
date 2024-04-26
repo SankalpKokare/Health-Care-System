@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.cdac.rest.entities.LoginEntity;
 
 @Repository
-public interface LoginRepository extends JpaRepository<LoginEntity, Integer> {
+public interface ILoginRepository extends JpaRepository<LoginEntity, Integer> {
 
 		@Query("Select l from LoginEntity l where username=:uid and password = :pwd ")
 		public  Optional<LoginEntity> getLoginDetails(String uid , String pwd);

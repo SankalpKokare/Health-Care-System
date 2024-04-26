@@ -6,15 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cdac.rest.entities.AppointmentPatientAssociationEntity;
-import com.cdac.rest.repositories.AppointmentPatRepository;
+import com.cdac.rest.repositories.IAppointmentPatRepository;
 
 @Service
 public class AppointmentPatService {
 	
 	@Autowired
-	private final AppointmentPatRepository appointmentPatRepository;
+	private final IAppointmentPatRepository appointmentPatRepository;
 	
-	  public AppointmentPatService(AppointmentPatRepository appointmentRepository) {
+	  public AppointmentPatService(IAppointmentPatRepository appointmentRepository) {
         this.appointmentPatRepository = appointmentRepository;
     }
 

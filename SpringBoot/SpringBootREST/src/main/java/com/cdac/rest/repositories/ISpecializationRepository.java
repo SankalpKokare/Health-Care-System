@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import com.cdac.rest.entities.Specialization;
 @Repository
-public interface SpecializationRepository extends JpaRepository<Specialization, Integer> {
+public interface ISpecializationRepository extends JpaRepository<Specialization, Integer> {
 
 }

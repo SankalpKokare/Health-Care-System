@@ -8,14 +8,14 @@ import org.springframework.stereotype.Service;
 import com.cdac.rest.entities.Appointment;
 import com.cdac.rest.entities.DoctorRegistrationEntity;
 import com.cdac.rest.entities.PatientRegistrationEntity;
-import com.cdac.rest.repositories.AppointmentRepository;
+import com.cdac.rest.repositories.IAppointmentRepository;
 
 @Service
 public class AppointmentService {
-    private final AppointmentRepository appointmentRepository;
+    private final IAppointmentRepository appointmentRepository;
 
     @Autowired
-    public AppointmentService(AppointmentRepository appointmentRepository) {
+    public AppointmentService(IAppointmentRepository appointmentRepository) {
         this.appointmentRepository = appointmentRepository;
     }
 

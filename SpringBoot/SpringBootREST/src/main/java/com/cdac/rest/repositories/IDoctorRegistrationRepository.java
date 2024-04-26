@@ -15,7 +15,7 @@ import jakarta.transaction.Transactional;
 
 @Repository
 @Transactional
-public interface DoctorRegistrationRepository extends JpaRepository<DoctorRegistrationEntity, Integer> {
+public interface IDoctorRegistrationRepository extends JpaRepository<DoctorRegistrationEntity, Integer> {
 
 	@Query("SELECT d FROM DoctorRegistrationEntity d WHERE d.doctor_login_id.login_id = :doctorLoginId")
 	public DoctorRegistrationEntity findDoctorById(int doctorLoginId);

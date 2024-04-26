@@ -6,13 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cdac.rest.entities.LoginEntity;
-import com.cdac.rest.repositories.LoginRepository;
+import com.cdac.rest.repositories.ILoginRepository;
 
 @Service
 public class LoginService {
 
 	@Autowired
-	LoginRepository loginRepo;
+	ILoginRepository loginRepo;
 	
 	public LoginEntity getLoginDetails(String username , String password) {
 		

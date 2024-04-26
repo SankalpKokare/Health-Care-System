@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cdac.rest.entities.Appointment;
 import com.cdac.rest.entities.AppointmentPatientAssociationEntity;
 import com.cdac.rest.entities.DoctorRegistrationEntity;
-import com.cdac.rest.repositories.AppointmentPatRepository;
+import com.cdac.rest.repositories.IAppointmentPatRepository;
 import com.cdac.rest.services.AppointmentPatService;
 import com.cdac.rest.services.DoctorRegistrationService;
 
@@ -29,7 +29,7 @@ public class AppointmentPatController {
 	DoctorRegistrationService doctorService;
 	
 	@Autowired
-	AppointmentPatRepository appointmentPatService;
+	IAppointmentPatRepository appointmentPatService;
 	
 	@Autowired
 	private AppointmentPatService appointmentService;

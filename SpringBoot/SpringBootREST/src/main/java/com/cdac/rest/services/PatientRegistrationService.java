@@ -4,12 +4,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.cdac.rest.entities.PatientRegistrationEntity;
-import com.cdac.rest.repositories.PatientRegistrationRepository;
+import com.cdac.rest.repositories.IPatientRegistrationRepository;
 
 @Service
 public class PatientRegistrationService {
 	@Autowired
-	PatientRegistrationRepository prrepo;
+	IPatientRegistrationRepository prrepo;
 
 	public List<PatientRegistrationEntity> getAllPatient() {
 		return prrepo.findAll();

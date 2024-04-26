@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.cdac.rest.entities.AppointmentPatientAssociationEntity;
 
 @Repository
-public interface AppointmentPatRepository extends JpaRepository<AppointmentPatientAssociationEntity,Integer> {
+public interface IAppointmentPatRepository extends JpaRepository<AppointmentPatientAssociationEntity,Integer> {
 	
     List<AppointmentPatientAssociationEntity> findByDoctorIdAndAppointmentDate(Integer doctorId, String appointmentDate);
 }
